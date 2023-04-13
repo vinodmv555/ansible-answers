@@ -1,0 +1,21 @@
+---
+- name: Create harman user accounts
+  hosts: localhost
+  become: yes
+  vars:
+    user_count: 15
+    groups_list:
+      - three
+      - other
+
+  tasks:
+    - name: Create groups - three and other 
+      group:
+        name: "{{ item }}"
+      loop: "{{ groups_list }}"
+
+    - name: Create harman user accounts
+      user:
+        name: "harman{{ item }}"
+        groups: "{{ 'three' if (item % 3) == 0 else 'other' }}"
+      loop: "{{ range(1, 16)|list }}"
