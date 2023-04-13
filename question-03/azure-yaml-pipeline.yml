@@ -1,0 +1,24 @@
+trigger: none
+
+name: reset-password 
+
+parameters:
+    - name: user
+      displayName: Input UserName 
+      default: ''
+      type: string 
+
+jobs:
+    - job: password_reset
+      displayName: reset-password-user-${{ parameters.user }}  
+      pool: 
+        vmImage: 'ubuntu-latest'
+      steps:  
+      - task: Ansible@0
+        displayName: Run Playbook
+        inputs:
+          ansibleInterface: 'agentMachine'
+          playbookPathOnAgentMachine: '$(System.DefaultWorkingDirectory)/password-reset.yaml'
+          inventoriesAgentMachine: 'file'
+          inventoryFileOnAgentMachine: '$(System.DefaultWorkingDirectory)/hosts.ini'
+          args: '-e "user_name=${{ parameters.user }} user_password=$(user_password)"' 
