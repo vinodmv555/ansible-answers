@@ -16,3 +16,7 @@
   systemd:
     name: ntp
     state: started 
+
+"""
+ I did not fully understand the question. To include NTP servers dynamically in ntp.conf for each environment, a list of servers is included in the development inventory, and a loop is created inside a Jinja template. However, using the blockinfile module to include the "Ansible managed" message as a comment may not be the appropriate approach in this case.
+"""
