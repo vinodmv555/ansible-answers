@@ -1,0 +1,18 @@
+---
+# tasks file for ntp-service-setup
+- name: install ntp
+  apt:
+    name: ntp
+    state: present
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Copy ntp.conf template 
+  template:
+    src: ntp.j2
+    dest: /etc/ntp.conf 
+  notify: Restart-NTP 
+
+- name: Start and Enable NTP service 
+  systemd:
+    name: ntp
+    state: started 

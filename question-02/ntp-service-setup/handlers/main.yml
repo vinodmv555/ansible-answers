@@ -1,0 +1,6 @@
+---
+# handlers file for ntp-service-setup
+- name: Restart-NTP
+  systemd:
+    name: ntp
+    state: restarted 

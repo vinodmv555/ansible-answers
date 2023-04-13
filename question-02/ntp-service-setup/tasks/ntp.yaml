@@ -1,0 +1,27 @@
+---
+- name: test play
+  hosts: localhost
+  become: yes
+  vars:
+    ntp_servers:
+        - 0.ubuntu.pool.ntp.org
+        - 1.ubuntu.pool.ntp.org
+        - 2.ubuntu.pool.ntp.org
+        - 3.ubuntu.pool.ntp.org
+
+  tasks:
+    - name: install ntp 
+      apt:
+        name: ntp
+        state: present
+      when: ansible_distribution == 'Ubuntu'
+
+    - name: Configure NTP servers
+      blockinfile:
+        path: /etc/ntp.conf
+        block: |
+          pool ntp.example.com iburst
+          pool ntp1.example.com iburst
+          pool ntp2.example.com iburst
+          pool ntp3.example.com iburst
+        marker: "# {mark} Ansible managed"
